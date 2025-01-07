@@ -7,4 +7,4 @@ Repo for code that reproduces the results and analysis in the paper Investigatin
 3. Install Python 3.13 and above with jupyter notebook, numpy 2.2.1.
 
 ## General operation
-The notebook <add name> demonstrates how to set up a single simulation using parallel cylinder substrates and diffusion-weighted spin echo sequences.  
+The notebook [Example_simulation](https://github.com/zhiyuzheng1769/MT-and-permeability-effect-on-two-compartment-dMRI-WM-model/blob/main/Example_simulation.ipynb) demonstrates how to set up a single simulation using parallel cylinder substrates and diffusion-weighted spin echo sequences. The simulation demonstrated there represents the most elementary unit of the mass simulations we ran for the whole project. 
