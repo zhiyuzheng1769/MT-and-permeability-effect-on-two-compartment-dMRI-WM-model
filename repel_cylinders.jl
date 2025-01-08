@@ -120,10 +120,10 @@ function repel_distributed_radius(radii, pos_in, repeatsize; maxiter=1000, repul
             end
         end
         if success_count == 0
-            println(a)
+            # println(a)
             break
         end
-        println(success_count)
+        # println(success_count)
     end
         
     return pos
