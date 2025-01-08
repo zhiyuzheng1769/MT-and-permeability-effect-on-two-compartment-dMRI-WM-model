@@ -1,0 +1,4 @@
+This directory contains necessary files to reproduce the results in the paper from distributed diameter cylinder simulations (i.e., Figures 6 and 8). To reproduce the results, follow the steps below:
+1. Run the [create_cylinder notebook](<add link>) to generate cylinders for MT and permeability simulations. Otherwise use pregenerated ones compressed in [MT_cylinders.zip](<add link>) and [perm_cylinders.zip](<add link>).
+2. Write a shell script (see [run_MT_sim.sh](<add link>) and [run_perm_sim.sh](<add link>) for examples using `fsl_sub`) to run [simulate_mt.jl](<add_link>) and [simulate_perm.jl](<add link>) on a computing cluster. Otherwise use pregenerated ones compressed in [MT_results.zip](<add link>) and [perm_results.zip](<add link>).
+3. Run the [reproduce_figures notebook](<add link>) to reproduce relevant figures in the result section. 
