@@ -3,7 +3,7 @@ Repo for code that reproduces the results and analysis in the paper Investigatin
 
 ## Pre-requisite
 1. Install Julia from the [official website](https://julialang.org/downloads/).
-2. Install MCMRSimulator version 0.9.0 following its [documentation](https://open.win.ox.ac.uk/pages/ndcn0236/mcmrsimulator.jl/v0.9/installation/).
+2. Download/clone this repo and keep the file hierachy.
 3. Install Python 3.13 and above with jupyter notebook, numpy 2.2.1.
 
 ## Example operation
