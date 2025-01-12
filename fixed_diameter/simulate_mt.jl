@@ -1,5 +1,6 @@
 """ 
 This script runs the sequences used in the AxCaliber paper (https://doi.org/10.1002/mrm.21577) on a single cylinder substrate we created before, it should be called with two arguments --radius and --MT (effective T2 in ms) provided.
+See run_mt_sims.sh for an example shell script to run this script on a computer cluster.
 """
 # Import necessary libraries for argument parsing, simulation, output formatting, file handling
 using ArgParse
