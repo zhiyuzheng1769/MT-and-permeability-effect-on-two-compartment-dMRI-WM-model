@@ -92,7 +92,7 @@ def fit_dict_axcaliber(y, fr, Dh, r, forward_model, method="curve_fit", cost="LS
             popt = minimize(fun=cost_func_div, x0=initial_params, method=method, bounds=[(0, 1), (0., 4), (0., 5.5)])
     return popt
 
-def local_optim_test_indata(forward_model, y, cost="LSE"):    
+def fit_params(forward_model, y, cost="LSE"):    
     optimisers = ['curve_fit','Nelder-Mead','Powell','L-BFGS-B','TNC','COBYLA','SLSQP','trust-constr']
     cf = []
     nm = []
