@@ -1,6 +1,6 @@
 """ 
-This script runs the sequences used in the AxCaliber paper (https://doi.org/10.1002/mrm.21577) on a single cylinder substrate we created before, it should be called with two arguments --radius and --MT (effective T2 in ms) provided.
-See run_mt_sims.sh for an example shell script to run this script on a computer cluster.
+This script runs the sequences used in the AxCaliber paper (https://doi.org/10.1002/mrm.21577) on a single cylinder substrate we created before, it should be called with two arguments --radius and --perm (permeability) provided.
+See run_perm_sims.sh for an example shell script to run this script on a computer cluster.
 """
 # Import necessary libraries for argument parsing, simulation, output formatting, file handling
 using ArgParse
@@ -18,8 +18,8 @@ function parse_commandline()
     @add_arg_table! s begin
         "--radius"      # The radius argument for the cylinders
         help = "radius" # Key for the radius argument
-        "--MT"          # The MT argument
-        help = "MT"     # Key for the MT argument
+        "--perm"        # The permeability argument
+        help = "perm"   # Key for the permeability argument
     end
 
     # Parse the arguments and return them as a dictionary
@@ -31,11 +31,9 @@ function main()
     # Parse the command-line arguments
     args = parse_commandline()
 
-    # Extract and round the radius argument
+    # Extract and round the radius and permeability arguments
     radius = round(parse(Float64, args["radius"]), digits=3)  # Radius rounded to 3 decimal places (um)
-    
-    # Extract the MT argument and parse it as an integer
-    mt = parse(Int64, args["MT"])  # MT strength represented as effective T2 (ms)
+    perm = round(parse(Float64, args["perm"]), digits=4)      # Permeability (rounded to 4 decimal places)
 
     # Set MRI sequence parameters
     TR = 3000          # Repetition time (ms)
@@ -49,7 +47,7 @@ function main()
 
     # Recreate the sequences used in the original AxCaliber paper: https://doi.org/10.1002/mrm.21577
     # Loop through the relevant diffusion time values
-    for Delta in [10, 15, 20, 30, 40, 50, 60, 80]
+    for Delta in [10, 15, 20, 30, 40, 50, 60, 80] 
         # Loop over gradient strengths in steps of 80, up to Gmax
         for g in 0:80:Gmax
             # Create a DWSE sequence with the current parameters
@@ -64,18 +62,18 @@ function main()
 
     # Read the corresponding cylinder substrates from a JSON file
     # The file name is dynamically created based on the perm and radius arguments
-    geom = MCMRSimulator.read_geometry("./MT_cyl/cylinders_MT_" * @sprintf("%d", mt) * "_sus_0_perm_0.000_rmean_" * @sprintf("%.2f", radius) * "_density_0.65.json")
+    geom = MCMRSimulator.read_geometry("./perm_cyl/cylinders_MT_0_sus_0_perm_" * @sprintf("%.3f", perm) * "_rmean_" * @sprintf("%.2f", radius) * "_density_0.65.json")
     
     # Set up the simulation with the created MRI sequences and substrate geometry
     sim = Simulation(seqs, diffusivity=2.3, geometry=geom)
 
     # Readout the signal from intra-axonal, extra-axonal compartments and the whole volume
     # the number of isochromats is set to 250000, feel free to decrease it to speed up simulation or increase it to reduce noise floor. The bounding box defines the region of interest, and subsets define different regions
-    sig = readout(250000, sim, bounding_box=BoundingBox([-sz,-sz,-sz],[sz,sz,sz]), subset=[Subset(inside=true), Subset(inside=false), Subset()])
+    sig = readout(250000, sim, bounding_box=BoundingBox([-sz, -sz, -sz], [sz, sz, sz]), subset=[Subset(inside=true), Subset(inside=false), Subset()])
 
     # Write the resulting signal data to a CSV file
-    # The file name is dynamically created based on the MT and radius arguments
-    writedlm("./MT_results/signal_MT_" * @sprintf("%d", mt) * "_sus_0_perm_0.000_rmean_" * @sprintf("%.2f", radius) * "_density_0.65.csv", transverse.(sig), ',')
+    # The file name is dynamically created based on the perm and radius arguments
+    writedlm("./perm/signal_MT_0_sus_0_perm_" * @sprintf("%.3f", perm) * "_rmean_" * @sprintf("%.2f", radius) * "_density_0.65.csv", transverse.(sig), ',')
 end
 
 # Run the main function

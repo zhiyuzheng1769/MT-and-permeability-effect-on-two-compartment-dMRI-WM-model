@@ -22,28 +22,28 @@ def reorder_df(dataframe):
             new_df.loc[i] = dataframe.loc[i + 3]
     return new_df
 
-def forge_axcaliber(method="curve_fit", y=None):
-    Dr = 3e-9
-    gradient_strengths = np.squeeze(np.tile(np.arange(0, 1.21, 0.08), (1,8)) )  # T/m
-    gradient_directions = np.tile(np.array([0,1,0]), (128, 1))# np.asarray([[0, 0, 1],[0, 0, 1],[0, 0, 1]])  # Perpendicular to the cylinder
-    delta = 0.0025  # s
-    Delta = np.tile(np.array([0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.08]), (16,1)).transpose().flatten()  # s
-    acq_scheme = acquisition_scheme_from_gradient_strengths(gradient_strengths, gradient_directions, delta, Delta)
-    ball = gaussian_models.G1Ball()
-    ys = [np.ones([128])]
-    for i in np.arange(0.30, 5.51, 0.10):
-        # a = '{0:.2f}'.format(i)
-        simdata = pd.read_csv("./perm_results/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
+# def forge_axcaliber(method="curve_fit", y=None):
+#     Dr = 3e-9
+#     gradient_strengths = np.squeeze(np.tile(np.arange(0, 1.21, 0.08), (1,8)) )  # T/m
+#     gradient_directions = np.tile(np.array([0,1,0]), (128, 1))# np.asarray([[0, 0, 1],[0, 0, 1],[0, 0, 1]])  # Perpendicular to the cylinder
+#     delta = 0.0025  # s
+#     Delta = np.tile(np.array([0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.08]), (16,1)).transpose().flatten()  # s
+#     acq_scheme = acquisition_scheme_from_gradient_strengths(gradient_strengths, gradient_directions, delta, Delta)
+#     ball = gaussian_models.G1Ball()
+#     ys = [np.ones([128])]
+#     for i in np.arange(0.30, 5.51, 0.10):
+#         # a = '{0:.2f}'.format(i)
+#         simdata = pd.read_csv("./perm/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
 
-        y = simdata[0].to_numpy()/simdata[0][0]
-        ys.append(y)
-    np_ys = np.array(ys)
-    rs = np.arange(0.30, 5.51, 0.10)
-    rs = np.insert(rs, 0, 0)
-    spline_cyl = CubicSpline(rs, np_ys)
-    def axcaliber(fr, Dh, r):
-        return (1 - fr)*ball(acq_scheme, lambda_iso=Dh) + fr*spline_cyl(r)
-    return axcaliber
+#         y = simdata[0].to_numpy()/simdata[0][0]
+#         ys.append(y)
+#     np_ys = np.array(ys)
+#     rs = np.arange(0.30, 5.51, 0.10)
+#     rs = np.insert(rs, 0, 0)
+#     spline_cyl = CubicSpline(rs, np_ys)
+#     def axcaliber(fr, Dh, r):
+#         return (1 - fr)*ball(acq_scheme, lambda_iso=Dh) + fr*spline_cyl(r)
+#     return axcaliber
     
 def forge_axcaliber_250k(method="curve_fit", y=None):
     Dr = 3e-9
@@ -56,7 +56,7 @@ def forge_axcaliber_250k(method="curve_fit", y=None):
     ys = [np.ones([128])]
     for i in np.arange(0.30, 5.51, 0.10):
         # a = '{0:.2f}'.format(i)
-        simdata = pd.read_csv("./perm_results/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
+        simdata = pd.read_csv("../same_packing_test/same_packing_scaled_bound/perm/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
 
         y = simdata[0].to_numpy()/simdata[0][0]
         ys.append(y)
@@ -92,7 +92,7 @@ def fit_dict_axcaliber(y, fr, Dh, r, forward_model, method="curve_fit", cost="LS
             popt = minimize(fun=cost_func_div, x0=initial_params, method=method, bounds=[(0, 1), (0., 4), (0., 5.5)])
     return popt
 
-def fit_params(forward_model, y, cost="LSE"):    
+def local_optim_test_indata(forward_model, y, cost="LSE"):    
     optimisers = ['curve_fit','Nelder-Mead','Powell','L-BFGS-B','TNC','COBYLA','SLSQP','trust-constr']
     cf = []
     nm = []
@@ -148,7 +148,7 @@ def fit_params(forward_model, y, cost="LSE"):
     opts_dict = dict(zip(optimisers, opts))
     return min_cost_dict, opts_dict
 
-def forge_axcaliber_dt(method="curve_fit", y=None):
+def forge_axcaliber_semifinal_dt(method="curve_fit", y=None):
     Dr = 3e-9
     gradient_strengths = np.squeeze(np.tile(np.arange(0, 1.21, 0.08), (1,8)) )  # T/m
     gradient_directions = np.tile(np.array([0,1,0]), (128, 1))# np.asarray([[0, 0, 1],[0, 0, 1],[0, 0, 1]])  # Perpendicular to the cylinder
@@ -159,7 +159,7 @@ def forge_axcaliber_dt(method="curve_fit", y=None):
     ys = [np.ones([128])]
     for i in np.arange(0.30, 5.51, 0.10):
         # a = '{0:.2f}'.format(i)
-        simdata = pd.read_csv("./perm_results/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
+        simdata = pd.read_csv("./100ktest/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
 
         y = simdata[0].to_numpy()/simdata[0][0]
         ys.append(y)
@@ -171,26 +171,7 @@ def forge_axcaliber_dt(method="curve_fit", y=None):
         return (1 - fr)*np.exp(-acq_scheme.bvalues*(Dh + A*1e-12*(np.log(Delta/delta) + 1.5)/(Delta - delta/3))) + fr*spline_cyl(r)
     return axcaliber
 
-def fit_dict_axcaliber_dt(y, fr, Dh, r, A, forward_model, method="curve_fit"):
-    
-    def forward_curve_fit(x, *params):
-        # print(*params)
-        return forward_model(*params)
-    def cost_func(params):
-        f, Dh, r, A = params
-        # print(params)
-        result = np.sum((forward_model(f, Dh * 1e-9, r, A) - y) ** 2)
-        return result
-    if method == "curve_fit":
-        initial_params = [fr, Dh*1e-9, r, A]
-        popt, pcov = curve_fit(f=forward_curve_fit, xdata=0, ydata=y, p0=initial_params, maxfev=5000, bounds=([0, 0, 0., -np.inf], [1, 4e-9, 10., np.inf]))
-        popt[1] = popt[1]*1e9
-    else:
-        initial_params = [fr, Dh, r, A]
-        popt = minimize(fun=cost_func, x0=initial_params, method=method, bounds=[(0, 1), (0., 4), (0., 5.5), (-np.inf, np.inf)])
-    return popt
-
-def local_optim_test_dt(forward_model, y, cost="LSE"):    
+def local_optim_test_indata_semifinal_dt(forward_model, y, cost="LSE"):    
     optimisers = ['curve_fit','Nelder-Mead','Powell','L-BFGS-B','TNC','COBYLA','SLSQP','trust-constr']
     cf = []
     nm = []
@@ -258,7 +239,7 @@ def forge_axcaliber_kurt():
     ys = [np.ones([128])]
     for i in np.arange(0.30, 5.51, 0.10):
         # a = '{0:.2f}'.format(i)
-        simdata = pd.read_csv("./perm_results/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
+        simdata = pd.read_csv("./100ktest/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
 
         y = simdata[0].to_numpy()/simdata[0][0]
         ys.append(y)

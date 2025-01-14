@@ -13,6 +13,6 @@ do
     for mt in $(seq ${mtmin} ${mtstep} ${mtmax})
         do
         # use fsl_sub to submit a job described by the following arguments to a computing cluster, could be replaced with more general slurm commands
-        fsl_sub "julia  --project=. simulate_mt.jl --radius ${r_mean} --MT ${mt}" # use the --project argument to specify the correct environment to use
+        fsl_sub "julia  --project=. simulate_mt.jl --radius ${r_mean} --MT ${mt}" # use the --project argument to specify the correct environment
     done
 done

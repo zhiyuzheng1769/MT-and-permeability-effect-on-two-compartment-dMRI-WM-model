@@ -13,6 +13,6 @@ do
     for perm in $(seq ${permmin} ${permstep} ${permmax})
         do
         # use fsl_sub to submit a job described by the following arguments to a computing cluster, could be replaced with more general slurm commands
-        fsl_sub  "julia --project=. simulate_perm.jl --radius ${r_mean} --perm ${perm}" # use the --project argument to specify the correct environment to use
+        fsl_sub  "julia --project=. simulate_perm.jl --radius ${r_mean} --perm ${perm}" # use the --project argument to specify the correct environment
     done
 done
