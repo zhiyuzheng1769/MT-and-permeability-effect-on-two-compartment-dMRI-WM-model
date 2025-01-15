@@ -33,7 +33,7 @@ def forge_axcaliber(method="curve_fit", y=None):
     ys = [np.ones([128])]
     for i in np.arange(0.30, 5.51, 0.10):
         # a = '{0:.2f}'.format(i)
-        simdata = pd.read_csv("./perm_results/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
+        simdata = pd.read_csv("../fixed_diameter/perm_results/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
 
         y = simdata[0].to_numpy()/simdata[0][0]
         ys.append(y)
@@ -44,29 +44,7 @@ def forge_axcaliber(method="curve_fit", y=None):
     def axcaliber(fr, Dh, r):
         return (1 - fr)*ball(acq_scheme, lambda_iso=Dh) + fr*spline_cyl(r)
     return axcaliber
-    
-def forge_axcaliber_250k(method="curve_fit", y=None):
-    Dr = 3e-9
-    gradient_strengths = np.squeeze(np.tile(np.arange(0, 1.21, 0.08), (1,8)) )  # T/m
-    gradient_directions = np.tile(np.array([0,1,0]), (128, 1))# np.asarray([[0, 0, 1],[0, 0, 1],[0, 0, 1]])  # Perpendicular to the cylinder
-    delta = 0.0025  # s
-    Delta = np.tile(np.array([0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.08]), (16,1)).transpose().flatten()  # s
-    acq_scheme = acquisition_scheme_from_gradient_strengths(gradient_strengths, gradient_directions, delta, Delta)
-    ball = gaussian_models.G1Ball()
-    ys = [np.ones([128])]
-    for i in np.arange(0.30, 5.51, 0.10):
-        # a = '{0:.2f}'.format(i)
-        simdata = pd.read_csv("./perm_results/signal_MT_0_sus_0_perm_0.000_rmean_" + '{0:.2f}'.format(i) + "_density_0.65.csv",header=None)
 
-        y = simdata[0].to_numpy()/simdata[0][0]
-        ys.append(y)
-    np_ys = np.array(ys)
-    rs = np.arange(0.30, 5.51, 0.10)
-    rs = np.insert(rs, 0, 0)
-    spline_cyl = CubicSpline(rs, np_ys)
-    def axcaliber(fr, Dh, r):
-        return (1 - fr)*ball(acq_scheme, lambda_iso=Dh) + fr*spline_cyl(r)
-    return axcaliber
 
 def fit_dict_axcaliber(y, fr, Dh, r, forward_model, method="curve_fit", cost="LSE"):
     
