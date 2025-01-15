@@ -65,7 +65,7 @@ function main()
     geom = MCMRSimulator.read_geometry("./perm_cyl/cylinders_MT_0_sus_0_perm_" * @sprintf("%.3f", perm) * "_rmean_" * @sprintf("%.2f", radius) * "_density_0.65.json")
     
     # Set up the simulation with the created MRI sequences and substrate geometry
-    sim = Simulation(seqs, diffusivity=2.3, geometry=geom)
+    sim = Simulation(seqs, diffusivity=2.3, geometry=geom) # set intrinsic diffusivity to 2.3um^2/ms to approximate free water in tissue
 
     # Readout the signal from intra-axonal, extra-axonal compartments and the whole volume
     # the number of isochromats is set to 250000, feel free to decrease it to speed up simulation or increase it to reduce noise floor. The bounding box defines the region of interest, and subsets define different regions
