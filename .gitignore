@@ -2,6 +2,7 @@ MT_results/
 perm_results/
 MT_cyl/
 perm_cyl/
+/example_output/
 .DS_Store
 .ipynb_checkpoints/
 __pycache__/
