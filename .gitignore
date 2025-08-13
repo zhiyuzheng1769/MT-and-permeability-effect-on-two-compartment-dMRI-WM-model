@@ -3,3 +3,6 @@ perm.zip
 perm_results/
 MT_cyl/
 perm_cyl/
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
