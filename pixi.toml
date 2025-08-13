@@ -3,7 +3,7 @@ authors = ["Michiel Cottaar <MichielCottaar@protonmail.com>"]
 channels = ["conda-forge"]
 description = "Add a short description here"
 name = "MT-and-permeability-effect-on-two-compartment-dMRI-WM-model"
-platforms = ["osx-64"]
+platforms = ["osx-arm64", "osx-64", "linux-64", "win-64"]
 version = "0.1.0"
 
 [tasks]
@@ -21,9 +21,5 @@ matplotlib = "*"
 [feature.python.tasks]
 python-notebook = "jupyter notebook"
 
-[feature.julia.dependencies]
-julia = "1.10.4"
-
 [environments]
 python = ["python"]
-julia = ["julia"]
