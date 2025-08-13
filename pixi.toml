@@ -12,10 +12,14 @@ julia-notebook = 'julia --project=. -e "using IJulia; notebook(; dir=\".\")"'
 [dependencies]
 
 [feature.python.dependencies]
-numpy = "1.26.*"
+numpy = "*"
+scipy = "*"
 jupyter = "*"
 pandas = "*"
 matplotlib = "*"
+
+[feature.python.tasks]
+python-notebook = "jupyter notebook"
 
 [environments]
 python = ["python"]
