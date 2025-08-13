@@ -1,0 +1,21 @@
+[project]
+authors = ["Michiel Cottaar <MichielCottaar@protonmail.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "MT-and-permeability-effect-on-two-compartment-dMRI-WM-model"
+platforms = ["osx-64"]
+version = "0.1.0"
+
+[tasks]
+julia-notebook = 'julia --project=. -e "using IJulia; notebook(; dir=\".\")"'
+
+[dependencies]
+
+[feature.python.dependencies]
+numpy = "1.26.*"
+jupyter = "*"
+pandas = "*"
+matplotlib = "*"
+
+[environments]
+python = ["python"]

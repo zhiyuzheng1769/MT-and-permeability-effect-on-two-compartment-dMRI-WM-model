@@ -6,3 +6,7 @@ perm_cyl/
 .DS_Store
 .ipynb_checkpoints/
 __pycache__/
+
+# pixi environments
+.pixi
+*.egg-info
