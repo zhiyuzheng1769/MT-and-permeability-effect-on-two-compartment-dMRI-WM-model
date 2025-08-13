@@ -21,5 +21,12 @@ matplotlib = "*"
 [feature.python.tasks]
 python-notebook = "jupyter notebook"
 
+[feature.julia.dependencies]
+julia = "1.10.4"
+
+[feature.julia.tasks]
+julia2-notebook = 'julia --project=. -e "using IJulia; notebook()"'
+
 [environments]
 python = ["python"]
+julia = ["julia"]
