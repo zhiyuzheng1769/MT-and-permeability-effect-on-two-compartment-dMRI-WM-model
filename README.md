@@ -9,6 +9,7 @@ Repo for code that reproduces the results and analysis in the paperInvestigating
 5. In the same directory, run
    ```
    Julia --project=.
+   using Pkg
    Pkg.instantiate()
    ```
    
