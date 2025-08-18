@@ -1,26 +1,25 @@
 # Import required libraries for diffusion modeling, optimization, and data handling
-from dmipy.signal_models import gaussian_models # Model for Gaussian diffusion signal
 import numpy as np  
 from scipy.optimize import minimize  # Optimization tools
 import pandas as pd  
-from dmipy.core.acquisition_scheme import acquisition_scheme_from_gradient_strengths  # Acquisition scheme setup
 from scipy.interpolate import CubicSpline  # Spline interpolation
+import sys
+sys.path.append("..")
+from simplified_dmipy import Ball, acquisition_scheme_from_gradients
 
 # Function to construct the AxCaliber forward model
 def forge_axcaliber():
     # Recreate the sequences used in the original AxCaliber paper: https://doi.org/10.1002/mrm.21577
     gradient_strengths = np.squeeze(np.tile(np.arange(0, 1.21, 0.08), (1, 8)))  # Gradient strengths (T/m)
-    gradient_directions = np.tile(np.array([0, 1, 0]), (128, 1))  # All sequences have the same gradient orientation, perpendicular to the cylinder
 
     # Define timing parameters for the acquisition scheme
     delta = 0.0025  # Gradient duration (s)
     Delta = np.tile(np.array([0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.08]), (16, 1)).transpose().flatten()  # Diffusion times (s)
     
     # Create the acquisition scheme
-    acq_scheme = acquisition_scheme_from_gradient_strengths(gradient_strengths, gradient_directions, delta, Delta)
-    
+    acq_scheme = acquisition_scheme_from_gradients(gradient_strengths, delta, Delta)
     # Define a Gaussian "Ball" model (for isotropic diffusion) that represents extraaxonal compartment
-    ball = gaussian_models.G1Ball()
+    ball = Ball()
 
     # Construct the interpolated DW attenuation dictionary for different radii
     # Initialize a list to store diffusion weighted signal attenuations at different radius values

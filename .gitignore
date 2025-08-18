@@ -10,3 +10,4 @@ __pycache__/
 # pixi environments
 .pixi
 *.egg-info
+fixed_diameter/dmipy replacement test.ipynb
