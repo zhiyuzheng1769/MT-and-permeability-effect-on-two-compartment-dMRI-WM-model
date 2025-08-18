@@ -2,7 +2,7 @@
 Repo for code that reproduces the results and analysis in the paperInvestigating the sensitivity of the diffusion MRI signal to magnetization transfer and permeability via Monte-Carlo simulations &lt;add link>. It is still work-in-progress and the content may be subject to substantial changes.
 
 ## Pre-requisite
-1. Install Julia from the [official website](https://julialang.org/downloads/).
+1. Install Julia from the [official website](https://julialang.org/install/).
 2. Download/clone this repo and keep the file hierachy.
 3. Install pixi following the [official website](https://pixi.sh/latest/installation/) if you don't have it.
 4. Open a terminal, change directory to where the repo is. Then run `pixi shell`.
