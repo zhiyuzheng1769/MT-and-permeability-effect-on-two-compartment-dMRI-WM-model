@@ -1,0 +1,3 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+MCMRSimulator = "eac06e4d-a854-4bf6-b44f-54c98b0401d1"
