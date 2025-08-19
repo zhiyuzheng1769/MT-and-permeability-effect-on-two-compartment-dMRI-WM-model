@@ -1,5 +1,5 @@
 # MT-and-permeability-effect-on-two-compartment-dMRI-WM-model
-Repo for code that reproduces the results and analysis in the paperInvestigating the sensitivity of the diffusion MRI signal to magnetization transfer and permeability via Monte-Carlo simulations &lt;add link>. It is still work-in-progress and the content may be subject to substantial changes.
+Repo for code that reproduces the results and analysis in the paper [Investigating the sensitivity of the diffusion MRI signal to magnetization transfer and permeability via Monte-Carlo simulations](https://www.biorxiv.org/content/10.1101/2025.07.16.664944v1). It is still work-in-progress and the content may be subject to substantial changes.
 
 ## Pre-requisite
 1. Install Julia from the [official website](https://julialang.org/install/).
