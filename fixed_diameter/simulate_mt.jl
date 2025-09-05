@@ -1,7 +1,12 @@
 """ 
-This script runs the sequences used in the AxCaliber paper (https://doi.org/10.1002/mrm.21577) on a single cylinder substrate we created before, it should be called with two arguments --radius and --MT (effective T2 in ms) provided.
+This script runs the sequences used in the AxCaliber paper (https://doi.org/10.1002/mrm.21577) on a single cylinder substrate we created before, it should be called with two arguments --radius and --MT (effective T2 in ms) provided. An optional argument is --n_spins which set the number of isochromats/spins for the simulation, default is 250000 and should be used to replicate the experiments in the paper.
 See run_mt_sims.sh for an example shell script to run this script on a computer cluster.
 """
+# Activate the specific Julia environment for this script
+using Pkg
+Pkg.activate("../julia-envs/old_mcmr")
+Pkg.instantiate()
+
 # Import necessary libraries for argument parsing, simulation, output formatting, file handling
 using ArgParse
 using MCMRSimulator
@@ -20,6 +25,10 @@ function parse_commandline()
         help = "radius" # Key for the radius argument
         "--MT"          # The MT argument
         help = "MT"     # Key for the MT argument
+        "--n_spins"     # The number of spins/isochromats argument
+        help = "number of spins/isochromats for simulation"
+        default = 250000  # Default value, used in the paper
+        arg_type = Int64  # Specify the argument type
     end
 
     # Parse the arguments and return them as a dictionary
@@ -36,6 +45,9 @@ function main()
     
     # Extract the MT argument and parse it as an integer
     mt = parse(Int64, args["MT"])  # MT strength represented as effective T2 (ms)
+
+    # Extract the number of spins argument (will use default if not provided)
+    n_spins = args["n_spins"]  # Number of spins/isochromats for simulation
 
     # Set MRI sequence parameters
     TR = 3000          # Repetition time (ms)
@@ -70,8 +82,8 @@ function main()
     sim = Simulation(seqs, diffusivity=2.3, geometry=geom) # set intrinsic diffusivity to 2.3um^2/ms to approximate free water in tissue
 
     # Readout the signal from intra-axonal, extra-axonal compartments and the whole volume
-    # the number of isochromats is set to 250000, feel free to decrease it to speed up simulation or increase it to reduce noise floor. The bounding box defines the region of interest, and subsets define different regions
-    sig = readout(250000, sim, bounding_box=BoundingBox([-sz,-sz,-sz],[sz,sz,sz]), subset=[Subset(inside=true), Subset(inside=false), Subset()])
+    # the number of isochromats is set by n_spins, feel free to decrease it to speed up simulation or increase it to reduce noise floor. The bounding box defines the region of interest, and subsets define different regions
+    sig = readout(n_spins, sim, bounding_box=BoundingBox([-sz,-sz,-sz],[sz,sz,sz]), subset=[Subset(inside=true), Subset(inside=false), Subset()])
 
     # Write the resulting signal data to a CSV file
     # The file name is dynamically created based on the MT and radius arguments
