@@ -11,3 +11,12 @@ __pycache__/
 .pixi
 *.egg-info
 fixed_diameter/dmipy replacement test.ipynb
+/fixed_diameter/final_rho_cylinder_surf_corr
+/fixed_diameter/final_rho_cylinder_same_t2
+/distributed_diameter/MT_cyl_t2_1us
+/fixed_diameter/MT_same_surf_den
+/fixed_diameter/MT_cyl_t2_1us
+/fixed_diameter/final_rho_cylinder
+/distributed_diameter/MT
+/fixed_diameter/MT
+fixed_diameter/create_cylinders_for_revision.ipynb
